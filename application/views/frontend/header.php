@@ -6,7 +6,7 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">	
 
-		<title>PT. INDONESIA OCEAN TRUCK</title>	
+		<title><?= $title ?></title>	
 
 		<meta name="keywords" content="PT. INDONESIA OCEAN TRUCK" />
 		<meta name="description" content="PT. INDONESIA OCEAN TRUCK">
@@ -61,7 +61,7 @@
 						<div class="header-row">
 							<div class="header-column">
 								<div class="header-logo">
-									<a href="<?= base_url() ?>assets/porto/index.html">
+									<a href="<?= base_url() ?>">
 										<img alt="PT. INDONESIA OCEAN TRUCK" width="111" height="54" data-sticky-width="82" data-sticky-height="40" data-sticky-top="33" src="<?= base_url() ?>assets/porto/logo-header.png">
 									</a>
 								</div>
@@ -87,7 +87,7 @@
 												<a href="<?= base_url() ?>assets/porto/contact-us.html"><i class="fa fa-angle-right"></i> Contact Us</a>
 											</li>
 											<li>
-												<span class="ws-nowrap"><i class="fa fa-phone"></i> (123) 456-789</span>
+												<span class="ws-nowrap"><i class="fa fa-phone"></i> <?=$konfigurasi->telepon?></span>
 											</li>
 										</ul>
 									</nav>
@@ -106,47 +106,32 @@
 											<nav>
 												<ul class="nav nav-pills" id="mainNav">
 													<li class="dropdown active">
-														<a class="dropdown-toggle" href="<?= base_url() ?>assets/porto/index.html">
+														<a class="dropdown-toggle" href="<?= base_url() ?>">
 															Homes
 														</a>
 													</li>
-													<li class="">
-														<a href="<?= base_url() ?>assets/porto/demos.html">
-															About us
-														</a>
-													</li>
-													<li class="dropdown">
-														<a class="dropdown-toggle" href="<?= base_url() ?>assets/porto/#">
-															Services
-														</a>
-														<ul class="dropdown-menu">
-															<li><a href="<?= base_url() ?>assets/porto/contact-us.html">Shipping</a></li>
-															<li><a href="<?= base_url() ?>assets/porto/contact-us-advanced.php">Custom Clearance</a></li>
-															<li><a href="<?= base_url() ?>assets/porto/contact-us.html">Logistic</a></li>
-															<li><a href="<?= base_url() ?>assets/porto/contact-us-advanced.php">Stevedoring</a></li>
-															<li><a href="<?= base_url() ?>assets/porto/contact-us-advanced.php">Travel</a></li>
-														</ul>
-													</li>
-													<li class="">
-														<a href="<?= base_url() ?>assets/porto/demos.html">
-														Equipments
-														</a>
-													</li>
-													<li class="">
-														<a href="<?= base_url() ?>assets/porto/demos.html">
-														Projects
-														</a>
-													</li>
-													<li class="">
-														<a href="<?= base_url() ?>assets/porto/demos.html">
-														News
-														</a>
-													</li>
-													<li class="">
-														<a href="<?= base_url() ?>assets/porto/demos.html">
-														Contact Us
-														</a>
-													</li>
+													<?php
+														foreach ($parent as $key => $value) {
+															$child = $this->db->get_where('front_menu', array('parent' => $value->id));
+															if ($child->num_rows() > 0) {
+																// tampilkan submenu
+													?>
+															<li class="dropdown">
+																<a class="dropdown-toggle" href="#"><?php echo $value->menu_title ?></a>
+																<ul class="dropdown-menu">
+																<?php 
+																	foreach ($child->result() as $res) {
+																		echo "<li>" . anchor($res->link, $res->menu_title) . "</li>";
+																	}
+																?>
+																</ul>
+															</li>
+													<?php
+															} else {
+																echo "<li>" . anchor($value->link, $value->menu_title) . "</li>";
+															}
+														}
+													?>
 												</ul>
 											</nav>
 										</div>

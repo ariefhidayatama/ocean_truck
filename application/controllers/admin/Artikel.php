@@ -56,7 +56,7 @@ class Artikel extends CI_Controller{
 
         $this->load->view('admin/header',$data);
         $this->load->view('admin/artikel/index', $data);
-        $this->load->view('admin/footer');
+        $this->load->view('admin/footer',$data);
     }
 
     public function validation_rule() {
@@ -124,9 +124,9 @@ class Artikel extends CI_Controller{
         // End masuk database
         $data['title'] = 'Tambah Artikel';
         $data['kategori'] = $kategori;
-        $this->load->view('admin/header');
-        $this->load->view('admin/artikel/tambah', $data);
-        $this->load->view('admin/footer');
+        $this->load->view('admin/header',$data);
+        $this->load->view('admin/artikel/tambah',$data);
+        $this->load->view('admin/footer',$data);
     }
 
     public function edit($id)
@@ -203,9 +203,9 @@ class Artikel extends CI_Controller{
         $data['title'] = 'Edit Artikel';
         $data['artikel'] = $artikel;
         $data['kategori'] = $kategori;
-        $this->load->view('admin/header');
+        $this->load->view('admin/header',$data);
         $this->load->view('admin/artikel/edit', $data);
-        $this->load->view('admin/footer');
+        $this->load->view('admin/footer',$data);
     }
 
     public function hapus($id)

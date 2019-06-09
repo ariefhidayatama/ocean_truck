@@ -16,7 +16,8 @@ class Artikel_model extends CI_Model {
 
     public function data_kategori()
     {
-      $query = $this->db->get('kategori_artikel');
+      $this->db->where('a.id !=','3');
+      $query = $this->db->get('kategori_artikel a');
       return $query->result();
     }
 

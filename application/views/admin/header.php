@@ -51,20 +51,32 @@
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <!-- User Account: style can be found in dropdown.less -->
+
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="<?= base_url()?>assets/adminlte/dist/img/avatar.png" class="user-image" alt="User Image">
-              <span class="hidden-xs">Alexander Pierce</span>
+              <img src="<?= base_url()?>assets/adminlte/dist/img/avatar.png" class="user-image" alt="User Image"/>
+              <span class="hidden-xs"><?php echo strtoupper($this->session->userdata('username'));?></span>
             </a>
             <ul class="dropdown-menu">
+              <!-- User image -->
+              <li class="user-header">
+                <img src="<?= base_url()?>assets/adminlte/dist/img/avatar.png" class="img-circle" alt="User Image" />
+                <p>
+                  <?php echo strtoupper($this->session->userdata('username'));?>
+                </p>
+              </li>
               <!-- Menu Footer-->
               <li class="user-footer">
-                <div class="pull-right">
-                  <a href="<?= base_url('login/logout')?>" class="btn btn-primary btn-flat">Sign out</a>
+                <div class="pull-left">
+                  <a href="<?= base_url('login/change_pass')?>" class="btn btn-default btn-flat">Change Password</a>
                 </div>
-              </li>
-            </ul>
-          </li>
+                <div class="pull-right">
+                  <a href="<?= base_url('login/logout')?>" class="btn btn-default btn-flat">Sign out</a>
+                </div>
+                </li>
+              </ul>
+            </li>
+
         </ul>
       </div>
     </nav>
@@ -79,7 +91,7 @@
           <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Admin</p>
+          <p><?php echo strtoupper($this->session->userdata('username'));?></p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
@@ -88,38 +100,38 @@
         <li class="active treeview">
           <a href="<?= base_url('admin/dashboard') ?>">
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-th"></i> <span>Content</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
+          <ul class="treeview-menu">
+            <li><a href="<?= base_url('admin/kategori_artikel/index') ?>"><i class="fa fa-circle-o"></i> Kategori</a></li>
+            <li><a href="<?= base_url('admin/artikel/index') ?>"><i class="fa fa-circle-o"></i> Artikel</a></li>
+            <li><a href="<?= base_url('admin/galeri/index') ?>"><i class="fa fa-circle-o"></i> Galeri Foto</a></li>
+            <li><a href="<?= base_url('admin/video/index') ?>"><i class="fa fa-circle-o"></i> Galeri Video</a></li>
+            <li><a href="<?= base_url('admin/klien/index') ?>"><i class="fa fa-circle-o"></i> Klien</a></li>
+          </ul>
         </li>
+
         <li class="treeview">
-          <a href="<?= base_url('admin/kategori_artikel/index') ?>">
-            <i class="fa fa-file-o"></i>
-            <span>Data Kategori Artikel</span>
-            <span class="pull-right-container">
-              <span class="fa fa-angle-left pull-right"></span>
-            </span>
-          </a>
-        </li>
-        <li class="treeview">
-          <a href="<?= base_url('admin/artikel/index') ?>">
-            <i class="fa fa-files-o"></i>
-            <span>Data Artikel</span>
+          <a href="#">
+            <i class="fa fa-cogs"></i> <span>Setting</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
+          <ul class="treeview-menu">
+            <li><a href="<?= base_url('admin/konfigurasi/index') ?>"><i class="fa fa-circle-o"></i> Konfigurasi</a></li>
+            <li><a href="<?= base_url('admin/menu/index') ?>"><i class="fa fa-circle-o"></i> Menu Frontend</a></li>
+          </ul>
         </li>
-        <li class="treeview">
-          <a href="<?= base_url('admin/konfigurasi');?>">
-            <i class="fa fa-edit"></i>
-            <span>Data Konfigurasi</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-        </li>
+
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -128,7 +140,7 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
 
-<style>
+<!-- <style>
   #loading {
     position: fixed;
     left: 0px;
@@ -139,4 +151,4 @@
     background: url(../../assets/loading.gif) 50% 50% no-repeat #ffffff;
   }
 </style>
-<div id="loading"></div>
+<div id="loading"></div> -->

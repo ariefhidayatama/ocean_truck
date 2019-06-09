@@ -27,12 +27,16 @@
         ?>
         <div class="box-body">
           <div class="form-group">
-            <label>Kategori Artikel</label>
+            <label>Kategori</label>
             <input type="text" class="form-control" name="nama_kategori" placeholder="Kategori">
           </div>
           <div class="form-group">
             <label>Keterangan</label>
             <textarea name="keterangan" class="form-control" rows="3" placeholder="Keterangan"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Posisi Kategori</label>
+            <input type="text" class="form-control" name="urutan" placeholder="Kategori">
           </div>
         </div>
         <!-- /.box-body -->

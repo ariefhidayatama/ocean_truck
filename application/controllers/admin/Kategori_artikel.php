@@ -51,16 +51,16 @@ class Kategori_artikel extends CI_Controller{
 
         $this->pagination->initialize($config);
         $data['halaman'] = $this->pagination->create_links();
-        $data['title'] = 'Kategori Artikel';
+        $data['title'] = 'Data Kategori';
         $data['kategori'] = $result;
 
         $this->load->view('admin/header',$data);
         $this->load->view('admin/kategori_artikel/index', $data);
-        $this->load->view('admin/footer');
+        $this->load->view('admin/footer',$data);
     }
 
     public function validation_rule() {
-        $this->form_validation->set_rules('nama_kategori', 'Nama Kategori', 'required|is_unique[kategori_artikel.nama_kategori]',array('required' =>  'Nama Kategori Harus di isi'));
+        $this->form_validation->set_rules('nama_kategori', 'Nama Kategori', 'required',array('required' =>  'Nama Kategori Harus di isi'));
         $this->form_validation->set_rules('keterangan', 'Keterangan', 'required',array('required' =>  'Keterangan Harus di isi'));
     }
 
@@ -72,20 +72,21 @@ class Kategori_artikel extends CI_Controller{
 
         if ($this->form_validation->run()==FALSE) {
             // END validasi
-            $data = array('title' => 'Tambah Kategori Artikel');
-            $this->load->view('admin/header');
+            $data = array('title' => 'Tambah Kategori');
+            $this->load->view('admin/header',$data);
             $this->load->view('admin/kategori_artikel/tambah', $data);
-            $this->load->view('admin/footer');
+            $this->load->view('admin/footer',$data);
             //masuk database
         } else {
             $i = $this->input;
             $data = array(
                 'nama_kategori' => $i->post('nama_kategori'),
                 'keterangan' => $i->post('keterangan'),
+                'urutan' => $i->post('urutan'),
             );
 
             $this->kategori_artikel_model->tambah($data);
-            $this->session->set_flashdata('sukses','Data Kategori Artikel telah ditambahkan');
+            $this->session->set_flashdata('sukses','Data Kategori telah ditambahkan');
             redirect(base_url('admin/kategori_artikel'));
         }
     }
@@ -99,10 +100,10 @@ class Kategori_artikel extends CI_Controller{
 
         if ($this->form_validation->run()==FALSE) {
             // END validasi
-            $data = array('title' => 'Edit Kategori Artikel', 'detail' => $detail);
-            $this->load->view('admin/header');
+            $data = array('title' => 'Edit Kategori', 'detail' => $detail);
+            $this->load->view('admin/header',$data);
             $this->load->view('admin/kategori_artikel/edit', $data);
-            $this->load->view('admin/footer');
+            $this->load->view('admin/footer',$data);
             //masuk database
         } else {
             $i = $this->input;
@@ -110,10 +111,11 @@ class Kategori_artikel extends CI_Controller{
                 'id' =>  $id,
                 'nama_kategori' => $i->post('nama_kategori'),
                 'keterangan' => $i->post('keterangan'),
+                'urutan' => $i->post('urutan'),
             );
             //var_dump($data); die();
             $this->kategori_artikel_model->edit($data);
-            $this->session->set_flashdata('sukses','Data Kategori Artikel telah diedit');
+            $this->session->set_flashdata('sukses','Data Kategori telah diedit');
             redirect(base_url('admin/kategori_artikel'));
         }
     }
@@ -122,7 +124,7 @@ class Kategori_artikel extends CI_Controller{
     {
         $data = array('id' =>  $id);
         $this->kategori_artikel_model->delete($data);
-        $this->session->set_flashdata('sukses','Data Kategori Artikel telah dihapus');
+        $this->session->set_flashdata('sukses','Data Kategori telah dihapus');
         redirect(base_url('admin/kategori_artikel'));
     }
 

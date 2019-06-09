@@ -34,6 +34,10 @@
             <label>Keterangan</label>
             <textarea name="keterangan" id="keterangan" class="form-control" rows="3" placeholder="Keterangan"><?= $detail->keterangan ?></textarea>
           </div>
+          <div class="form-group">
+            <label>Posisi Kategori</label>
+            <input type="text" class="form-control" name="urutan" placeholder="Posisi Kategori" value="<?= $detail->urutan ?>">
+          </div>
         </div>
         <!-- /.box-body -->
       <div class="box-footer clearfix">
