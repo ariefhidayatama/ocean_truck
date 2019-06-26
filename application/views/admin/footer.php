@@ -51,6 +51,8 @@
 <!-- AdminLTE for demo purposes -->
 <script src="<?= base_url()?>assets/adminlte/dist/js/demo.js"></script>
 
+<script src="<?= base_url()?>assets/adminlte/swal/dist/sweetalert2.all.min.js"></script>
+<script src="<?= base_url()?>assets/adminlte/custom.js"></script>
 <script>
 
   $('.alert-warning').fadeIn().delay(2000).fadeOut('slow');

@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Video extends CI_Controller{
+class Video extends CI_Controller
+{
 
     function __construct()
     {
@@ -14,13 +15,13 @@ class Video extends CI_Controller{
         $search = $this->input->post('search');
         $offset = $this->uri->segment(4); //offset adalah untuk menentukan status data yang ingin ditampilkan
         $total = 10; // batas limit data yg akan di tampilkan
-        $result = $this->video_model->listing($search,$offset,$total);
+        $result = $this->video_model->listing($search, $offset, $total);
 
         $jml = $this->db->get('video');
         $data['jmldata'] = $jml->num_rows();
 
         $config['uri_segment'] = 4;
-        $config['base_url'] = base_url().'admin/video/index/';
+        $config['base_url'] = base_url() . 'admin/video/index/';
         $config['per_page'] = $total;
         $config['total_rows'] = $jml->num_rows();
 
@@ -50,40 +51,41 @@ class Video extends CI_Controller{
         $config['num_tag_close'] = '</li>';
 
         $this->pagination->initialize($config);
-        $status = array('Draft','Publish');
+        $status = array('Draft', 'Publish');
 
         $data['halaman'] = $this->pagination->create_links();
         $data['title'] = 'Data Video';
         $data['result'] = $result;
         $data['status'] = $status;
 
-        $this->load->view('admin/header',$data);
+        $this->load->view('admin/header', $data);
         $this->load->view('admin/video/index', $data);
-        $this->load->view('admin/footer',$data);
+        $this->load->view('admin/footer', $data);
     }
 
-    public function validation_rule() {
-        $this->form_validation->set_rules('judul', 'Nama Video', 'required',array('required' =>  'Nama Video Harus di isi'));
+    public function validation_rule()
+    {
+        $this->form_validation->set_rules('judul', 'Nama Video', 'required', array('required' =>  'Nama Video Harus di isi'));
     }
 
     public function tambah()
     {
         $kategori = $this->video_model->get_dropdown();
-        $status = array('Draft','Publish');
+        $status = array('Draft', 'Publish');
         // validasi
         $valid = $this->validation_rule();
         $this->form_validation->set_rules($valid);
 
-        if ($this->form_validation->run()==FALSE) {
+        if ($this->form_validation->run() == FALSE) {
             // END validasi
             $data = array(
                 'title'     => 'Tambah Video',
                 'kategori'  => $kategori,
                 'status'    => $status
             );
-            $this->load->view('admin/header',$data);
+            $this->load->view('admin/header', $data);
             $this->load->view('admin/video/tambah', $data);
-            $this->load->view('admin/footer',$data);
+            $this->load->view('admin/footer', $data);
             //masuk database
         } else {
             $i = $this->input;
@@ -95,7 +97,7 @@ class Video extends CI_Controller{
             );
 
             $this->video_model->tambah($data);
-            $this->session->set_flashdata('sukses','Data Video telah ditambahkan');
+            $this->session->set_flashdata('sukses', 'Data Video telah ditambahkan');
             redirect(base_url('admin/video'));
         }
     }
@@ -104,22 +106,22 @@ class Video extends CI_Controller{
     {
         $detail = $this->video_model->detail($id);
         $kategori = $this->video_model->get_dropdown();
-        $status = array('Draft','Publish');
+        $status = array('Draft', 'Publish');
         // validasi
         $valid = $this->validation_rule();
         $this->form_validation->set_rules($valid);
 
-        if ($this->form_validation->run()==FALSE) {
+        if ($this->form_validation->run() == FALSE) {
             // END validasi
             $data = array(
-                'title'     => 'Edit Video', 
+                'title'     => 'Edit Video',
                 'detail'    => $detail,
                 'kategori'  => $kategori,
                 'status'    => $status
             );
-            $this->load->view('admin/header',$data);
+            $this->load->view('admin/header', $data);
             $this->load->view('admin/video/edit', $data);
-            $this->load->view('admin/footer',$data);
+            $this->load->view('admin/footer', $data);
             //masuk database
         } else {
             $i = $this->input;
@@ -132,7 +134,7 @@ class Video extends CI_Controller{
             );
             //var_dump($data); die();
             $this->video_model->edit($data);
-            $this->session->set_flashdata('sukses','Data Video telah diedit');
+            $this->session->set_flashdata('sukses', 'Data Video telah diedit');
             redirect(base_url('admin/video'));
         }
     }
@@ -141,8 +143,7 @@ class Video extends CI_Controller{
     {
         $data = array('id' =>  $id);
         $this->video_model->delete($data);
-        $this->session->set_flashdata('sukses','Data Video telah dihapus');
+        $this->session->set_flashdata('sukses', 'Data Video telah dihapus');
         redirect(base_url('admin/video'));
     }
-
 }

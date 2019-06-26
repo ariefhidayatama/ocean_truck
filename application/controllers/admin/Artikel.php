@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Artikel extends CI_Controller{
+class Artikel extends CI_Controller
+{
 
     function __construct()
     {
@@ -14,13 +15,13 @@ class Artikel extends CI_Controller{
         $search = $this->input->post('search');
         $offset = $this->uri->segment(4); //offset adalah untuk menentukan urutan data yang ingin ditampilkan
         $total = 10; // batas limit data yg akan di tampilkan
-        $result = $this->artikel_model->listing($search,$offset,$total);
+        $result = $this->artikel_model->listing($search, $offset, $total);
 
         $jml = $this->db->get('artikel');
         $data['jmldata'] = $jml->num_rows();
 
         $config['uri_segment'] = 4;
-        $config['base_url'] = base_url().'admin/artikel/index/';
+        $config['base_url'] = base_url() . 'admin/artikel/index/';
         $config['per_page'] = $total;
         $config['total_rows'] = $jml->num_rows();
 
@@ -54,14 +55,15 @@ class Artikel extends CI_Controller{
         $data['result'] = $result;
         $data['title'] = 'Data Artikel';
 
-        $this->load->view('admin/header',$data);
+        $this->load->view('admin/header', $data);
         $this->load->view('admin/artikel/index', $data);
-        $this->load->view('admin/footer',$data);
+        $this->load->view('admin/footer', $data);
     }
 
-    public function validation_rule() {
-        $this->form_validation->set_rules('judul', 'Judul', 'required',array('required' =>  'Judul Tidak Boleh Kosong'));
-        $this->form_validation->set_rules('isi', 'Isi Artikel', 'required',array('required' =>  'Isi Artikel Tidak Boleh Kosong'));
+    public function validation_rule()
+    {
+        $this->form_validation->set_rules('judul', 'Judul', 'required', array('required' =>  'Judul Tidak Boleh Kosong'));
+        $this->form_validation->set_rules('isi', 'Isi Artikel', 'required', array('required' =>  'Isi Artikel Tidak Boleh Kosong'));
     }
 
     public function tambah()
@@ -72,17 +74,17 @@ class Artikel extends CI_Controller{
         $this->form_validation->set_rules($valid);
 
         if ($this->form_validation->run()) {
-            
+
             $config['upload_path']      = 'assets/upload/image/';
             $config['allowed_types']    = 'gif|jpg|png|svg';
             $config['max_size']         = '120000'; // KB    
             $this->load->library('upload', $config);
 
-            if( $this->upload->do_upload('gambar')) {
+            if ($this->upload->do_upload('gambar')) {
                 $upload_data                = array('uploads' => $this->upload->data());
                 // Image Editor bikin thumbnail
                 $config['image_library']    = 'gd2';
-                $config['source_image']     = 'assets/upload/image/'.$upload_data['uploads']['file_name']; 
+                $config['source_image']     = 'assets/upload/image/' . $upload_data['uploads']['file_name'];
                 $config['new_image']        = 'assets/upload/image/thumbs/';
                 $config['create_thumb']     = TRUE;
                 $config['quality']          = "100%";
@@ -96,37 +98,39 @@ class Artikel extends CI_Controller{
                 $this->image_lib->resize();
 
                 $i    = $this->input;
-                $slug = url_title($this->input->post('judul'),'dash',TRUE);
-                $data = array(  'judul'      =>  $i->post('judul'),
-                                'slug'       =>  $slug,
-                                'gambar'     =>  $upload_data['uploads']['file_name'],
-                                'id_kategori'=>  $i->post('id_kategori'),
-                                'isi'        =>  $i->post('isi')
-                                );
+                $slug = url_title($this->input->post('judul'), 'dash', TRUE);
+                $data = array(
+                    'judul'      =>  $i->post('judul'),
+                    'slug'       =>  $slug,
+                    'gambar'     =>  $upload_data['uploads']['file_name'],
+                    'id_kategori' =>  $i->post('id_kategori'),
+                    'isi'        =>  $i->post('isi')
+                );
                 // var_dump($data); die();
                 $this->artikel_model->tambah($data);
-                $this->session->set_flashdata('sukses','Artikel berhasil ditambahkan');
+                $this->session->set_flashdata('sukses', 'Artikel berhasil ditambahkan');
                 redirect(base_url('admin/artikel'));
             } else {
                 $i    = $this->input;
-                $slug = url_title($this->input->post('judul'),'dash',TRUE);
-                $data = array(  'judul'      =>  $i->post('judul'),
-                                'slug'       =>  $slug,
-                                'id_kategori'=>  $i->post('id_kategori'),
-                                'isi'        =>  $i->post('isi')
-                                );
+                $slug = url_title($this->input->post('judul'), 'dash', TRUE);
+                $data = array(
+                    'judul'      =>  $i->post('judul'),
+                    'slug'       =>  $slug,
+                    'id_kategori' =>  $i->post('id_kategori'),
+                    'isi'        =>  $i->post('isi')
+                );
                 // var_dump($data); die();
                 $this->artikel_model->tambah($data);
-                $this->session->set_flashdata('sukses','Artikel berhasil ditambahkan');
+                $this->session->set_flashdata('sukses', 'Artikel berhasil ditambahkan');
                 redirect(base_url('admin/artikel'));
             }
         }
         // End masuk database
         $data['title'] = 'Tambah Artikel';
         $data['kategori'] = $kategori;
-        $this->load->view('admin/header',$data);
-        $this->load->view('admin/artikel/tambah',$data);
-        $this->load->view('admin/footer',$data);
+        $this->load->view('admin/header', $data);
+        $this->load->view('admin/artikel/tambah', $data);
+        $this->load->view('admin/footer', $data);
     }
 
     public function edit($id)
@@ -146,11 +150,11 @@ class Artikel extends CI_Controller{
                 $config['max_size']         = '120000'; // KB    
                 $this->load->library('upload', $config);
 
-                if($this->upload->do_upload('gambar')) {
-                    $upload_data                = array('uploads' =>$this->upload->data());
+                if ($this->upload->do_upload('gambar')) {
+                    $upload_data                = array('uploads' => $this->upload->data());
                     // Image Editor bikin thumbnail
                     $config['image_library']    = 'gd2';
-                    $config['source_image']     = 'assets/upload/image/'.$upload_data['uploads']['file_name']; 
+                    $config['source_image']     = 'assets/upload/image/' . $upload_data['uploads']['file_name'];
                     $config['new_image']        = 'assets/upload/image/thumbs/';
                     $config['create_thumb']     = TRUE;
                     $config['quality']          = "100%";
@@ -165,47 +169,49 @@ class Artikel extends CI_Controller{
 
                     // Hapus gambar lama
                     if ($artikel->gambar != "") {
-                        unlink('assets/upload/image/'.$artikel->gambar);
-                        unlink('assets/upload/image/thumbs/'.$artikel->gambar);
+                        unlink('assets/upload/image/' . $artikel->gambar);
+                        unlink('assets/upload/image/thumbs/' . $artikel->gambar);
                     }
                     // end hapus
-                        
+
                     $i      = $this->input;
-                    $slug = url_title($this->input->post('judul'),'dash',TRUE);
-                    $data = array(  'id'         =>  $id,
-                                    'judul'      =>  $i->post('judul'),
-                                    'slug'       =>  $slug,
-                                    'id_kategori'=>  $i->post('id_kategori'),
-                                    'isi'        =>  $i->post('isi'),
-                                    'gambar'     =>  $upload_data['uploads']['file_name'],
-                                    );
-                    $this->artikel_model->edit($id,$data);
-                    $this->session->set_flashdata('sukses','artikel berhasil di edit');
+                    $slug = url_title($this->input->post('judul'), 'dash', TRUE);
+                    $data = array(
+                        'id'         =>  $id,
+                        'judul'      =>  $i->post('judul'),
+                        'slug'       =>  $slug,
+                        'id_kategori' =>  $i->post('id_kategori'),
+                        'isi'        =>  $i->post('isi'),
+                        'gambar'     =>  $upload_data['uploads']['file_name'],
+                    );
+                    $this->artikel_model->edit($id, $data);
+                    $this->session->set_flashdata('sukses', 'artikel berhasil di edit');
                     redirect(base_url('admin/artikel'));
                 } // End masuk database
             } else {
                 // update tanpa ganti gambar
                 $i    = $this->input;
-                $slug = url_title($this->input->post('judul'),'dash',TRUE);
-                $data = array(  'id'         =>  $id,
-                                'judul'      =>  $i->post('judul'),
-                                'slug'       =>  $slug,
-                                'id_kategori'=>  $i->post('id_kategori'),
-                                'isi'        =>  $i->post('isi')
-                                );
+                $slug = url_title($this->input->post('judul'), 'dash', TRUE);
+                $data = array(
+                    'id'         =>  $id,
+                    'judul'      =>  $i->post('judul'),
+                    'slug'       =>  $slug,
+                    'id_kategori' =>  $i->post('id_kategori'),
+                    'isi'        =>  $i->post('isi')
+                );
                 //var_dump($data); die();
-                $this->artikel_model->edit($id,$data);
-                $this->session->set_flashdata('sukses','Artikel berhasil di edit');
+                $this->artikel_model->edit($id, $data);
+                $this->session->set_flashdata('sukses', 'Artikel berhasil di edit');
                 redirect(base_url('admin/artikel'));
             }
-        }   
+        }
         // End masuk database
         $data['title'] = 'Edit Artikel';
         $data['artikel'] = $artikel;
         $data['kategori'] = $kategori;
-        $this->load->view('admin/header',$data);
+        $this->load->view('admin/header', $data);
         $this->load->view('admin/artikel/edit', $data);
-        $this->load->view('admin/footer',$data);
+        $this->load->view('admin/footer', $data);
     }
 
     public function hapus($id)
@@ -213,12 +219,11 @@ class Artikel extends CI_Controller{
         $data = $this->artikel_model->detail($id);
         // var_dump($data->gambar); die();
         if ($data->gambar != "") {
-            unlink('assets/upload/image/'.$data->gambar);
-            unlink('assets/upload/image/thumbs/'.$data->gambar);
+            unlink('assets/upload/image/' . $data->gambar);
+            unlink('assets/upload/image/thumbs/' . $data->gambar);
         }
         $this->artikel_model->delete($id);
-        $this->session->set_flashdata('sukses','Data Kategori Artikel telah dihapus');
+        $this->session->set_flashdata('sukses', 'Data Kategori Artikel telah dihapus');
         redirect(base_url('admin/artikel'));
     }
-
 }
